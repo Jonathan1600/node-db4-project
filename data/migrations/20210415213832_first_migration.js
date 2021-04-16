@@ -4,14 +4,14 @@ exports.up = function (knex) {
         .createTable("recipes", tbl => {
             tbl.increments("recipe_id")
             tbl.string("recipe_name", 128).notNullable()
-            tbl.datetime("created_at")
+            tbl.timestamp('created_at').defaultTo(knex.fn.now());
         })
         .createTable("ingredients", tbl => {
             tbl.increments("ingredient_id")
             tbl.string("ingredient_name", 128).notNullable().unique()
         })
         .createTable("steps", tbl => {
-            tbl.increments("steps_id")
+            tbl.increments("step_id")
             tbl.integer("step_number").notNullable()
             tbl.string("step_instructions").notNullable()
             tbl.integer("recipe_id")
@@ -23,6 +23,7 @@ exports.up = function (knex) {
         })
         .createTable("ingredients_steps", tbl => {
             tbl.increments("step_ingredient_id")
+            tbl.string("quantity").notNullable();
             tbl.integer("step_id")
                 .unsigned()
                 .notNullable()
